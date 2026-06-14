@@ -11,6 +11,9 @@
         .logout-form button { background: #94A3B8; color: white; padding: 6px 14px; border: none; border-radius: 4px; cursor: pointer; }
         .action-buttons { display: flex; gap: 8px; align-items: center; }
         .action-buttons a { background: #94A3B8; color: white; padding: 6px 14px; border-radius: 4px; text-decoration: none; }
+        .btn { border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: bold; }
+        .btn-complete { background: #10B981; color: white; }
+        .btn-cancel { background: #EF4444; color: white; }
         table { width: 100%; border-collapse: collapse; margin-top: 24px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #E2E8F0; }
         th { background: #0F2443; color: white; }
@@ -58,11 +61,13 @@
                 </td>
                 <td>
                     <button th:if="${appt.status == 'BOOKED'}"
+                            class="btn btn-cancel"
                             th:data-id="${appt.apptId}"
-                            onclick="cancelAppointment(this)">取消</button>
+                            onclick="cancelAppointment(this)">取消掛號</button>
                     <button th:if="${appt.status == 'BOOKED'}"
+                            class="btn btn-complete"
                             th:data-id="${appt.apptId}"
-                            onclick="completeAppointment(this)">完成</button>
+                            onclick="completeAppointment(this)">完成掛號</button>
                 </td>
             </tr>
         </tbody>
