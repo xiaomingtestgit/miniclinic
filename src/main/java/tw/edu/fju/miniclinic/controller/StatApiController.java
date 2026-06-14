@@ -27,16 +27,15 @@ public class StatApiController {
     public Map<String, Object> getStats() {
         Map<String, Object> response = new LinkedHashMap<>();
 
-        response.put("doctorCount", doctorRepo.count());
-        response.put("patientCount", patientRepo.count());
-        response.put("appointmentCount", appointmentRepo.count());
+        response.put("totalDoctors", doctorRepo.count());
+        response.put("totalPatients", patientRepo.count());
+        response.put("totalAppointments", appointmentRepo.count());
 
-        Map<String, Long> statusCounts = new LinkedHashMap<>();
-        statusCounts.put("BOOKED", appointmentRepo.countByStatus("BOOKED"));
-        statusCounts.put("COMPLETED", appointmentRepo.countByStatus("COMPLETED"));
-        statusCounts.put("CANCELLED", appointmentRepo.countByStatus("CANCELLED"));
-        response.put("statusCounts", statusCounts);
-        response.put("departmentCounts", appointmentRepo.countByDoctorDepartment());
+        Map<String, Long> byStatus = new LinkedHashMap<>();
+        byStatus.put("BOOKED", appointmentRepo.countByStatus("BOOKED"));
+        byStatus.put("COMPLETED", appointmentRepo.countByStatus("COMPLETED"));
+        byStatus.put("CANCELLED", appointmentRepo.countByStatus("CANCELLED"));
+        response.put("byStatus", byStatus);
 
         return response;
     }
