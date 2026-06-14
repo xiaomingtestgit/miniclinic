@@ -60,6 +60,9 @@
                     <button th:if="${appt.status == 'BOOKED'}"
                             th:data-id="${appt.apptId}"
                             onclick="cancelAppointment(this)">取消</button>
+                    <button th:if="${appt.status == 'BOOKED'}"
+                            th:data-id="${appt.apptId}"
+                            onclick="completeAppointment(this)">完成</button>
                 </td>
             </tr>
         </tbody>
@@ -85,6 +88,24 @@
                 }
             }).catch(function(error) {
                 console.error('取消掛號錯誤', error);
+            });
+        }
+        function completeAppointment(button) {
+            var appointmentId = button.getAttribute('data-id');
+            fetch('/api/appointments/' + appointmentId + '/status', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: 'COMPLETED' })
+            }).then(function(response) {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('完成掛號失敗', response.statusText);
+                }
+            }).catch(function(error) {
+                console.error('完成掛號錯誤', error);
             });
         }
     </script>
