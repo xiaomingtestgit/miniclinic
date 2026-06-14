@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>診所統計資訊</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; max-width: 960px; margin: 40px auto; padding: 0 20px; }
+        h1, h2 { color: #0F2443; }
+        nav { background: #0F2443; padding: 12px; border-radius: 8px; margin-bottom: 20px; }
+        nav a { color: white; margin-right: 20px; text-decoration: none; font-weight: bold; }
+        nav a:hover { color: #5EEAD4; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { padding: 10px 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #0F2443; color: white; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
+        .stat-card { background: #f7f9fb; border: 1px solid #d2dce9; border-radius: 12px; padding: 18px; }
+        .stat-card strong { display: block; margin-bottom: 8px; color: #0F2443; }
+        .no-data { color: #555; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <h1>診所統計資訊</h1>
+    <nav>
+        <a th:href="@{/}">首頁</a>
+        <a th:href="@{/doctors}">醫師清單</a>
+        <a th:href="@{/appointment/new}">線上掛號</a>
+        <a th:href="@{/patients}">病患資料</a>
+        <a th:href="@{/appointments}">掛號紀錄</a>
+        <a th:href="@{/stats}">統計資訊</a>
+    </nav>
+    <section class="stats-grid">
+        <div class="stat-card">
+            <strong>醫師總數</strong>
+            <div th:text="${doctorCount}">0</div>
+        </div>
+        <div class="stat-card">
+            <strong>病患總數</strong>
+            <div th:text="${patientCount}">0</div>
+        </div>
+        <div class="stat-card">
+            <strong>掛號總數</strong>
+            <div th:text="${appointmentCount}">0</div>
+        </div>
+    </section>
+    <section>
+        <h2>依科別分組的掛號數</h2>
+        <div th:if="${departmentCounts.isEmpty()}" class="no-data">目前尚無掛號資料。</div>
+        <table th:if="${!departmentCounts.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>科別</th>
+                    <th>掛號數</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="deptCount : ${departmentCounts}">
+                    <td th:text="${deptCount.department}">科別</td>
+                    <td th:text="${deptCount.count}">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>患者清單 - MiniClinic</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; max-width: 960px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #0F2443; border-bottom: 3px solid #14B8A6; padding-bottom: 8px; }
+        .filter { margin: 20px 0; }
+        .filter a { display: inline-block; padding: 6px 14px; margin: 4px; background: #E2E8F0; color: #0F2443; text-decoration: none; border-radius: 4px; }
+        .filter a.active { background: #14B8A6; color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #E2E8F0; }
+        th { background: #0F2443; color: white; }
+        tr:hover { background: #F8FAFC; }
+    </style>
+</head>
+<body>
+    <h1>患者清單</h1>
+
+    <div class="filter">
+        <strong>性別篩選：</strong>
+        <a th:href="@{/patients}"
+           th:classappend="${selectedGender == null} ? 'active'">全部</a>
+        <a th:each="gender : ${genders}"
+           th:href="@{/patients(gender=${gender})}"
+           th:text="${gender}"
+           th:classappend="${gender == selectedGender} ? 'active'">性別</a>
+    </div>
+
+    <p th:if="${patients.isEmpty()}">目前沒有符合條件的患者。</p>
+
+    <table th:unless="${patients.isEmpty()}">
+        <thead>
+            <tr>
+                <th>病歷號</th>
+                <th>姓名</th>
+                <th>性別</th>
+                <th>手機號碼</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="patient : ${patients}">
+                <td th:text="${patient.chartNo}">病歷號</td>
+                <td>
+                    <a th:href="@{/patients/{id}(id=${patient.chartNo})}"
+                    th:text="${patient.name}">患者姓名</a>
+                </td>
+                <td th:text="${patient.gender}">性別</td>
+                <td th:text="${patient.phone}">手機號碼</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
